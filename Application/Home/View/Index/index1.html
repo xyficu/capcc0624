@@ -7,40 +7,74 @@
     <js href="__PUBLIC__/Home/Js/jquery-1.8.3.min.js" />
     <js href="__PUBLIC__/Home/Js/jquery.luara.0.0.1.min.js"/>
     <load href="__PUBLIC__/Home/Css/luara.css"/>
+    <script >
+        $(document).ready(function()
+        {
+            setInterval(imgchange,3000);
+            var path=new Array();
+            var url=new Array();
+            var index=0;
+            var data= <{$imgs}>;
+            $.each(data, function(i,value)
+            {
+                //json to array
+                url[i]= value.id;
+                path[i]= value.imgpath;
+
+            });
+
+            function imgchange()
+            {
+                if(index==path.length-1)
+                {
+                    index=0;
+                }else
+                {
+                    index++;
+                }
+                $("#index_img").attr("src","__PUBLIC__/"+path[index]);
+                $("#jumpurl").attr("href","__APP__/News/third_wechat/id/"+url[index]);
+            }
+        })
+
+    </script>
 </head>
 <body>
 
 <div class="wrap_box">
     <div class="wrap">
         <div class="left_box ">
-            <!--首页新闻图片-->
-
-           <!-- <a href="__APP__/Home/News/third_picture/id/<{$news_pic[0].id}>"><img src="__PUBLIC__/<{$news_pic[0]['imgpath']}>" width="802" height="451"/></a>-->
-
-            <a href=""><img src="__PUBLIC__/<{$headline.imgpath}>" width="802" height="451"/></a>
-
+            <!--首页微说图片-->
+            <a id='jumpurl' href="__APP__/News/third_wechat/id/<{$news_wechat[0].id}>"><img id='index_img'src="__PUBLIC__/<{$news_wechat[0].imgpath.0}>" width="802" height="451"/></a>
         </div>
         <div class="right_box">
             <div class="right_con" style="height:450px;">
-                <h2 class="pubtit top_border_ff9900"><a href="__APP__/Home/News/news_active.html" class="more"
-                                                        style="background: url('__PUBLIC__/Home/Images/home/more.jpg') 0 50% no-repeat;margin:10px 0 0 0;padding:0;"></a><strong
-                        class="f1485a3">新&nbsp;&nbsp;闻</strong></h2>
-                <dl class="r_news_dl1">
-                    <dt>
-                    <h3><a href="__APP__/Home/News/third_active/id/<{$news_active[0].id}>"><{$news_active[0]['title']}></a></h3></dt>
-                    <dd><p><{$news_active[0]['abstract']}></p></dd>
-                </dl>
+                <h2 class="pubtit top_border_ff9900"><strong class="f1485a3">微说运河</strong></h2>
+                <foreach name="news_wechat" item="vo">
+                    <div class="r_news_dl1" style="height:120px;overflow: hidden;margin-top: -5px">
+                        <!--<dl class="r_news_dl1">-->
+                            <dt>
+                            <h3><a href="__APP__/Home/News/third_wechat/id/<{$vo.id}>"><{$vo.title}></a></h3></dt>
+                            <dd><p style="text-indent: 2em"><{$vo.abstract}></p></dd>
+                       <!-- </dl>-->
+                    </div>
+                </foreach>
+
+               <!-- <div class="r_news_dl1" style="height:120px;overflow: hidden;margin-top: -10px">
                 <dl class="r_news_dl1">
                     <dt>
                     <h3><a href="__APP__/Home/News/third_active/id/<{$news_active[1].id}>"><{$news_active[1]['title']}></a></h3></dt>
                     <dd><p>
-                        <{$news_active[1]['abstract']}></p></dd>
+                        <{$news_active[1]['content']}></p></dd>
                 </dl>
+                </div>
+                <div class="r_news_dl1" style="height:120px;overflow: hidden;margin-top: -10px">
                 <dl class="r_news_dl1">
                     <dt>
                     <h3><a href="__APP__/Home/News/third_active/id/<{$news_active[2].id}>"><{$news_active[2]['title']}></a></h3></dt>
-                    <dd><p><{$news_active[2]['abstract']}></p></dd>
+                    <dd><p><{$news_active[2]['content']}></p></dd>
                 </dl>
+                </div>-->
             </div>
         </div>
         <div class="height20"></div>
@@ -144,7 +178,7 @@
                     <dt><a href="__APP__/Home/City/third_canal/id/<{$city[0].id}>"><img src="__PUBLIC__/<{$city[0]['imgpath']}>"></a></dt>
                     <dd>
                         <h3><a href="__APP__/Home/City/third_canal/id/<{$city[0].id}>"> <{$city[0]['title']}></a></h3>
-                        <p><{$city[0]['abstract']}></p></dd>
+                        <p><{$city[0]['content']}></p></dd>
                 </dl>
             </div>
             <div class="height20"></div>
@@ -167,9 +201,9 @@
                 </div>
                 <div class="lv_pic_box fr">
                     <h4 class="pubtit1"><a href="__APP__/Home/Travel" class="more"
-                                           style="background: url('__PUBLIC__/Home/Images/home/more.jpg') 0 50% no-repeat;margin:10px 0 0 0;padding:0;"></a><span>吃住</span>
+                                           style="background: url('__PUBLIC__/Home/Images/home/more.jpg') 0 50% no-repeat;margin:10px 0 0 0;padding:0;"></a><span>美食</span>
                     </h4>
-                    <!--吃住-->
+                    <!--吃-->
                     <ul class="lv_pic_con2">
                         <li><a href="__APP__/Home/Travel/third_eat/id/<{$travel_eat[0].id}>"><img src="__PUBLIC__/<{$travel_eat[0]['imgpath']}>"></a>
                             <p><a href="__APP__/Home/Travel/third_eat/id/<{$travel_eat[0].id}>"><{$travel_eat[0]['title']}></a></p></li>
@@ -185,12 +219,11 @@
 
                     <div class="gl_map"><img src="__PUBLIC__/<{$travel_story[0]['imgpath']}>"></div>
                     <dl class="gl_dl">
-                        <dt><a href="__APP__/Home/Travel/third_story/id/<{$travel_story[0].id}>"><img src="__PUBLIC__/<{$travel_story[0]['imgpath']}>"></a></dt>
-                        <dd><p><strong><a href="__APP__/Home/Travel/third_story/id/<{$travel_story[0].id}>"><{$travel_story[0]['title']}></a></strong><br>
-                            <{$travel_story[0]['content']}></p></dd>
+                        <dt><a href="__APP__/Home/Travel/third_story/id/<{$travel_story[1].id}>"><img src="__PUBLIC__/<{$travel_story[1]['imgpath']}>" width="200px" height="140px"></a></dt>
+                        <dd><p><strong><a href="__APP__/Home/Travel/third_story/id/<{$travel_story[1].id}>"><{$travel_story[1]['title']}></a></strong><br>
+                            <{$travel_story[1]['content']}></p></dd>
                     </dl>
                 </div>
-
             </div>
         </div>
         <div class="right_box">
@@ -212,19 +245,6 @@
                     <li><a href=""><img src="__PUBLIC__/Home/Images/home/ac3.jpg"></a></li>
                     <li><a href=""><img src="__PUBLIC__/Home/Images/home/ac4.jpg"></a></li>
                 </ul>
-                <!--良策 监测-->
-                <!--<div class="zyz_txt fl">-->
-                    <!--<h4 class="pubtit2"><span>良策</span></h4>-->
-
-                    <!--<p>-->
-                        <!--河南安阳滑县段的卫河作为中国大运河的重要组成部分被列入了保护和申报世界文化遗产的范围。卫河岸边的道口古镇，至今已有近千年的历史。清朝乾......</p>-->
-                <!--</div>-->
-                <!--<div class="zyz_txt fr">-->
-                    <!--<h4 class="pubtit2"><span>监测</span></h4>-->
-
-                    <!--<p>-->
-                        <!--河南安阳滑县段的卫河作为中国大运河的重要组成部分被列入了保护和申报世界文化遗产的范围。卫河岸边的道口古镇，至今已有近千年的历史。清朝乾......</p>-->
-                <!--</div>-->
             </div>
         </div>
         <div class="height20"></div>
@@ -241,7 +261,7 @@
                         <dt><a href="__APP__/Home/Dgmuseum/third_legend/id/<{$classic_legend[0].id}>"><img src="__PUBLIC__/<{$classic_legend[0]['imgpath']}>"></a></dt>
                         <dd>
                             <h3><a href="__APP__/Home/Dgmuseum/third_legend/id/<{$classic_legend[0].id}>"><{$classic_legend[0]['title']}></a></h3>
-                            <p><{$classic_legend[0]['abstract']}></p>
+                            <p><{$classic_legend[0]['content']}></p>
                         </dd>
                     </dl>
                 </div>
@@ -253,7 +273,7 @@
                         <dt><a href="__APP__/Home/Dgmuseum/third_group/id/<{$classic_group[0].id}>"><img src="__PUBLIC__/<{$classic_group[0]['imgpath']}>"></a></dt>
                         <dd>
                             <h3><a href="__APP__/Home/Dgmuseum/third_group/id/<{$classic_group[0].id}>"><{$classic_group[0]['name']}></a></h3>
-                            <p><{$classic_group[0]['abstract']}></p>
+                            <p><{$classic_group[0]['content']}></p>
                         </dd>
                     </dl>
                 </div>
@@ -266,7 +286,7 @@
                         <dt><a href="__APP__/Home/Dgmuseum/third_market/id/<{$classic_market[0].id}>"><img src="__PUBLIC__/<{$classic_market[0]['imgpath']}>"></a></dt>
                         <dd>
                             <h3><a href="__APP__/Home/Dgmuseum/third_market/id/<{$classic_market[0].id}>"><{$classic_market[0]['title']}></a></h3>
-                            <p><{$classic_market[0]['abstract']}></p></dd>
+                            <p><{$classic_market[0]['content']}></p></dd>
                     </dl>
                 </div>
                 <div class="art_box fr">

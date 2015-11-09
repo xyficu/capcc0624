@@ -31,7 +31,7 @@ img {border:none;}
 .nav {width:1200px;height:44px;margin:0 auto;padding:0;background:#e4e4e4;border:1px solid #bebebe;}
 .nav ul {margin:0;padding:0;}
 .nav ul li {float:left;height:44px;margin:0;font-size:16px;font-weight:bold;}
-.nav ul li a {display:block;width:130px;height:44px;line-height:44px;text-align:center;color:#333;}
+.nav ul li a {display:block;width:119px;height:44px;line-height:44px;text-align:center;color:#333;}
 .nav ul .ge {width:1px;height:44px;background:#bebebe;}
 
 #nav .current a, #nav li:hover > a {
@@ -137,7 +137,7 @@ img {border:none;}
 .pubtit2 span {padding:0 30px 0 10px;font-size:16px;color:#35bfdc;}
 .r_news_dl1 {width:358px;margin:5px auto;padding:8px 0;clear:both;border-bottom:dotted 1px #ddd;overflow:hidden;}
 .r_news_dl1 dt {width:358px;}
-.r_news_dl1 dt h3 {height:30px;font-size:16px;}
+.r_news_dl1 dt h3 {height:25px;font-size:16px;}
 .r_news_dl1 dt h3 a {color:#333;}
 .r_news_dl1 dd {line-height:2;}
 
@@ -256,6 +256,23 @@ img {border:none;}
 .luara- ul li img{width: inherit;height: inherit;}
 
 li{list-style: none;}
+
+/*右侧悬浮icon*/
+.wechat_float {
+    padding-top:100px;
+    position:fixed;
+    right:20px;
+    top:20%;
+}
+
+.wechat_close {
+    padding-top:100px;
+    position:fixed;
+    right:24px;
+    top:19%;
+}
+
+
 
 
 

@@ -14,13 +14,12 @@ class NewsController extends CommonController{
     {
         $this->display('Public:head');
 
-        $m= M('news_picture');
-        $news=$m->where('')->limit('1')->select();
-        $this->assign('news_pic',$news);
+        $m= M('news_wechat');
+        $news_wechat=$m->order('ID desc')->limit(3)->select();
+        $this->assign('news_wechat',$news_wechat);
 
         $res1= M('news_active');
-        $data['id']=array('ELT',3);
-        $data1=$res1->where($data)->select();
+        $data1=$res1->order('ID desc')->limit('3')->select();
         $data1[0]['content']=R('SubString/subString',array($data1[0]['content'],70));
         $data1[1]['content']=R('SubString/subString',array($data1[1]['content'],70));
         $data1[2]['content']=R('SubString/subString',array($data1[2]['content'],70));
@@ -61,44 +60,63 @@ class NewsController extends CommonController{
         $this->display('Public:foot');
     }
 
-    public function news_picture()
+    public function news_wechat()
     {
         $this->display('Public:head');
 
-        $m= M('news_picture');
+        $m=M('News_wechat');
         $count = $m->where()->count();
         $Page  = new \Think\Page($count,4);
         $show  = $Page->show();
-        $list1 = $m->where()->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
-        foreach ($list1 as $k=>$v)
+        $list = $m->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+
+        foreach ($list as $k=>$v)
         {
-            $list1[$k]['content']=R('SubString/subString',array($list1[$k]['content'],200));
+            $list[$k]['title']=mb_substr($list[$k]['title'],0,28,'UTF-8');
+            $list[$k]['content']=R('SubString/subString',array($list[$k]['content'],200));
+            if($list[$k]['imgpath']=='')
+            {
+                $list[$k]['imgpath']='Home/Images/login/ologo.png';
+            }else
+            {
+                $list[$k]['imgpath']=explode(',',$v['imgpath']);
+            }
         }
-        $this->assign('list1',$list1);
+        //dump($list);
+        //exit;
+        $this->assign('news_wechat',$list);
         $this->assign('page',$show);
+
         $this->display();
 
         $this->display('Public:foot');
     }
-    public function third_picture()
+    public function third_wechat()
     {
         $this->display('Public:head');
-        $res1= M('news_picture');
+        $m= M('News_wechat');
         $aid=$_GET['id'];
 //        dump($aid);
-        $list = $res1->where(array('ID'=>$aid))->find();
+        $list = $m->where(array('ID'=>$aid))->find();
 //        dump($list);
         if($list) {
+            $list['content']=explode("\r",$list['content']);
+            //dump($list['content']);
+            foreach($list['content'] as $k=>$v)
+            {
+                $list['content'][$k]=htmlspecialchars_decode($v);
+            }
+
             $this->assign('vo',$list);
         }else{
             $this->error('数据错误');
         }
-        $res1->getLastSql();
-
         $this->display();
 
         $this->display('Public:foot');
     }
+
+
     public function third_active()
     {
         $this->display('Public:head');
@@ -114,6 +132,7 @@ class NewsController extends CommonController{
        //dump($list);
         //EXIT;
         if($list) {
+            $list['content']=explode("\r",$list['content']);
             $this->assign('vo',$list);
         }else{
             $this->error('数据错误');

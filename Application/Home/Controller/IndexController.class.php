@@ -89,7 +89,7 @@ class IndexController extends CommonController {
 
             $this->assign('news_wechat',$data1);
 
-            // 中国世界遗项目
+            // 中国世遗项目
             $res2= M('heritage_project');
             $data2=$res2->where('id = 16')->limit('1')->select();
             $this->assign('heritage_project',$data2);
